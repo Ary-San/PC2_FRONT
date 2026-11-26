@@ -44,9 +44,9 @@ export default function LocationDetail() {
     setFieldError('')
     setSending(true)
     try {
-      await api.post(`/locations/${id}/tickets`, { description: text })
+      const { data } = await api.post<Ticket>(`/locations/${id}/tickets`, { description: text })
       setDescription('')
-      setSuccess('Solicitud creada.')
+      setSuccess(`Solicitud #${data.id} creada en ${data.resourceName}: "${data.description}" (${data.status === 'OPEN' ? 'Abierta' : 'Cerrada'})`)
       setVersion((v) => v + 1)
     } catch (err) {
       setFormError(
